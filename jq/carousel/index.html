@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="#">
+	<title>轮播</title>
+	<link rel="stylesheet" type="text/css" href="../../style/common.css">
+	<link rel="stylesheet" type="text/css" href="carousel.css">
+	<link rel="stylesheet" type="text/css" href="animation.css">
+	<style type="text/css">
+		.carousel{width: 700px;}
+	</style>
+</head>
+<body>
+<!--  ================== 淡入淡出 fade   ================== -->
+<div id="carouselFade" class="carousel">
+	 <!-- 轮播结构 -->
+	 <div class="carousel-inner">
+	    <div class="item">
+	      	<img src="../images/1.jpg" alt="">
+	      	<div class="carousel-caption">
+	        	1
+	      	</div>
+	    </div>
+	    <div class="item">
+	      	<img src="../images/2.jpg" alt="">
+	      	<div class="carousel-caption">
+	        	2
+	      	</div>
+	    </div>
+	    <div class="item">
+	      	<img src="../images/3.jpg" alt="">
+	      	<div class="carousel-caption">
+	        	3
+	      	</div>
+	    </div>
+	 </div>
+		
+	<!-- 导航 -->
+	 <ol class="carousel-indicators">
+	    <li class="nav"></li>
+	    <li class="nav"></li>
+	    <li class="nav"></li>
+	 </ol>
+
+	  <!-- 控制按钮 -->
+	 <a class="prev carousel-control">
+	    <span>&#60;</span>
+	 </a>
+	 <a class="next carousel-control">
+	    <span>&#62;</span>
+	 </a>
+</div>
+
+<hr>
+
+<!-- ===================  滑动 slide  ================== -->
+<div id="carouselSlide" class="carousel">
+	 <!-- 轮播结构 -->
+	 <div class="carousel-inner">
+	    <div class="item">
+	      	<img src="../images/1.jpg" alt="">
+	      	<div class="carousel-caption">
+	        	1
+	      	</div>
+	    </div>
+	    <div class="item">
+	      	<img src="../images/2.jpg" alt="">
+	      	<div class="carousel-caption">
+	        	2
+	      	</div>
+	    </div>
+	    <div class="item">
+	      	<img src="../images/3.jpg" alt="">
+	      	<div class="carousel-caption">
+	        	3
+	      	</div>
+	    </div>
+	 </div>
+		
+	<!-- 导航 -->
+	 <ol class="carousel-indicators">
+	    <li class="nav"></li>
+	    <li class="nav"></li>
+	    <li class="nav"></li>
+	 </ol>
+
+	  <!-- 控制按钮 -->
+	 <a class="prev carousel-control">
+	    <span>&#60;</span>
+	 </a>
+	 <a class="next carousel-control">
+	    <span>&#62;</span>
+	 </a>
+</div>
+
+<hr>
+
+<!-- ===================  无缝滑动 Seamless  ================== -->
+<div id="carouselSeamless" class="carousel">
+	 <!-- 轮播结构 -->
+	 <div class="carousel-inner">
+	    <div class="item">
+	      	<img src="../images/1.jpg" alt="">
+	      	<div class="carousel-caption">
+	        	1
+	      	</div>
+	    </div>
+	    <div class="item">
+	      	<img src="../images/2.jpg" alt="">
+	      	<div class="carousel-caption">
+	        	2
+	      	</div>
+	    </div>
+	    <div class="item">
+	      	<img src="../images/3.jpg" alt="">
+	      	<div class="carousel-caption">
+	        	3
+	      	</div>
+	    </div>
+	 </div>
+		
+	<!-- 导航 -->
+	 <ol class="carousel-indicators">
+	    <li class="nav"></li>
+	    <li class="nav"></li>
+	    <li class="nav"></li>
+	 </ol>
+
+	  <!-- 控制按钮 -->
+	 <a class="prev carousel-control">
+	    <span>&#60;</span>
+	 </a>
+	 <a class="next carousel-control">
+	    <span>&#62;</span>
+	 </a>
+</div>
+
+
+<script src="../jq.custom.js"></script>
+<script src="animation.js"></script>
+<script src="carousel.js"></script>
+<script type="text/javascript">
+	$(function(){
+
+		$('#carouselFade').carousel({
+			index: 0,
+			loop: true,
+			interval: 3000,
+			animTime: 400,
+			effect: 'fade',
+        	pause: true,
+		});
+
+		$('#carouselSlide').carousel({
+			index: 0,
+			loop: true,
+			interval: 3000,
+			animTime: 800,			
+			effect: 'slide',
+        	pause: true,
+		});
+
+		$('#carouselSeamless').carousel({
+			index: 0,						// 第几张幻灯片
+			loop: true,						// 幻灯片是否循环
+			interval: 3000,					// 幻灯片自动播放时间
+			animTime: 800,					// 需要与 css 的动画时间相同
+			effect: 'seamless',				// 幻灯片切换效果
+        	pause: true,					// 鼠标 mouseover 时暂停
+		});
+
+	});
+</script>
+</body>
+</html>

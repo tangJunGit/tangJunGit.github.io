@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="#">
+    <title>html5 文件上传</title>
+	<link rel="stylesheet" type="text/css" href="../../style/common.css">
+    <link rel="stylesheet" type="text/css" href="upload.css">
+</head>
+<body>
+<form>
+    <div class="form-group">
+        <div class="uploader" id="upload">
+            <div class="input">
+                <input type="text" name="text" class="form-control textInput"/>
+                <input type="file" name="file" class="form-control fileInput" multiple=""/>
+            </div>
+            <button class="btn btn-default selectFile">选择文件</button>
+            <button class="btn btn-primary uploadBtn">开始上传</button>
+            <div id="info"></div>
+        </div>
+    </div>
+</form>
+
+<script src="../jq.custom.js"></script>
+<script src="upload.js"></script>
+<script>
+    $(function(){
+
+		$('#upload').uploader({
+            url: '/upload',
+            // asyn: true,                                 // 是否异步  默认 true
+            // fileInput: undefined,                       // 文件控件 默认 input.fileInput
+            // textInput: undefined,                       // 文本控件 默认 input.textInput
+            // selectFile: undefined,                      // 选择文件按钮 默认 .selectFile
+            // uploadBtn: undefined,                       // 上传文件按钮 默认 .uploadBtn
+            onSelect: function(files){                  // 文件选择后
+                console.log(files);
+                var info = $.map(files, function(i, v){
+                    return '<p>图片名：'+v.name + '， 文件大小:' + v.size + ' k</p>';
+                }).join(';');
+
+                $('#info').html(info);
+            },                
+            onSuccess: function(files, respond){        // 文件上传成功时
+                console.log(files);
+                console.log(respond);
+            },      
+            onFailure: function(files, respond){        // 文件上传失败时
+                console.log(files);
+                console.log(respond);
+            },      
+            onComplete: function(files, respond){       // 文件全部上传完毕时
+                console.log(files);
+                console.log(respond);
+            },     
+        });
+
+	});
+</script>
+</body>
+</html>

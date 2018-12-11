@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="#">
+    <title>html5 图片上传预览</title>
+	<link rel="stylesheet" type="text/css" href="../../style/common.css">
+    <link rel="stylesheet" type="text/css" href="uploaderPreview.css">
+    <style>
+        #uploadPreview{
+             width: 800px;   
+            margin: 50px auto; 
+        }
+    </style>
+</head>
+<body>
+<form>
+    <div class="form-group">
+        <div class="uploaderPreview" id="uploadPreview">
+            <div class="drag" draggable="true">点击此处，或者将文件拖到此处</div>
+            <div class="status-bar">
+                <div class="info">选中 <span>0</span> 张图片。</div>
+                <div class="btns">					
+                    <input type="file" name="files" multiple="" accept="image/png,image/jpg,image/jpeg">
+                    <a href="javascript:void(0);"  class="btn btn-default selectFile">选择图片</a>					
+                    <div class="btn btn-primary uploadBtn">开始上传</div>				
+                </div>
+            </div>
+            <div class="preview">
+                <!-- 在此插入的图片列表 -->
+                <div class="upload-list add selectFile">
+                    <img src="images/add.png">
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script src="../jq.custom.js"></script>
+<script src="uploaderPreview.js"></script>
+<script>
+    $(function(){
+
+		$('#uploadPreview').uploadPreview({
+            url: 'http://www.uploadify.com/uploadify/uploadify.php',
+            drag: true,
+            asyn: true, 
+            // filterFile : function(files, selectFile){         // 过滤后的文件返回
+            //     // 文件类型与文件大小在此可以过滤掉
+            //     return selectFile;
+            // },
+            onSelect: function(files, selectFile){              // 选择上传的文件
+                console.log('选择的文件(过滤后)', selectFile);
+                console.log('待上传的文件', files);
+                $('.info>span').text(files.length);
+            },    
+            onDelete : function(files, delFiles){               // 删除文件后处理
+                console.log('删除的文件', delFiles);
+                $('.info>span').text(files.length);
+            },
+            onSuccess: function(files, res){                    // 文件上传成功时
+                console.log('上传成功');
+                console.log(res);
+            },
+            onFailure: function(files, res){                    // 文件上传失败时,
+                console.log('上传失败');
+                console.log(res);
+            },
+            onComplete: function(files, res){                   // 文件全部上传完毕时
+                console.log('上传完成');
+            }
+        });
+
+	});
+</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="#">
+	<title>工具提示</title>
+	<link rel="stylesheet" type="text/css" href="../../style/common.css">
+    <link rel="stylesheet" type="text/css" href="tooltip.css">
+    <style>
+        .wrap{
+			position: absolute;
+            top: 100px;
+            left: 200px;
+            padding: 50px;
+            text-align: center;
+            border: 1px solid #ccc;
+		}
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <button style="padding:40px;margin:20px;" class="btn btn-primary" data-direction="top" data-content="这里展示提示内容这里展示提示内容">Tooltip 向上</button>
+    <button style="width:200px;height:50px;" class="btn btn-primary" data-direction="bottom" data-content="这里展示提示内容">Tooltip 向下</button>
+</div>
+<script src="../jq.custom.js"></script>
+<script src="tooltip.js"></script>
+<script>
+    $(function(){
+
+		$('button').tooltip();
+
+	});
+</script>
+</body>
+</html>

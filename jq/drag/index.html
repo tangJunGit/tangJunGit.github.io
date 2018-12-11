@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="#">
+	<title>拖拽</title>
+	<link rel="stylesheet" type="text/css" href="../../style/common.css">
+    <style type="text/css">
+        .wrap{
+            width: 800px;
+            height: 600px;
+            border:1px solid #ccc;
+            overflow: hidden;
+        }
+		#drag{
+		    width: 400px;
+		    height: 300px;
+		    margin: 100px auto 0;
+		    border: 1px solid #8887dc;
+		    box-shadow: 1px 1px 1px #8887dc;
+		}
+		#drag .title{
+			height: 30px;
+		    line-height: 30px;
+		    padding: 0 10px;
+		    color: #fff;
+		    background-color: #8887dc;
+		}
+		#drag .content{
+			padding: 10px;
+		}
+	</style>
+</head>
+<body>
+<div class="wrap">
+    <div id="drag">
+        <div class="title move">拖拽</div>
+        <div class="content">内容 ...</div>
+    </div>
+</div>
+<script src="../jq.custom.js"></script>
+<script src="drag.js"></script>
+<script>
+    $(function(){
+
+		$('#drag').drag({
+            drag: '.move'
+        });
+
+	});
+</script>
+</body>
+</html>

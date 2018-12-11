@@ -1,0 +1,26 @@
+
+/*=============================================
+=            文件上传            =
+=============================================*/
+
+.uploader{
+    position: relative;
+}
+.uploader .input{
+    position: relative;
+    float: left;
+}
+.uploader input.fileInput{
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    cursor: pointer;
+    overflow: hidden;
+}
+
+/*=====  End of 文件上传  ======*/
+

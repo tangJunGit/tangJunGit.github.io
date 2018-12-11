@@ -1,0 +1,119 @@
+
+/**
+ *
+ * 样式布局
+ *
+ */
+
+
+.carousel {
+  position: relative;
+  overflow: hidden;
+}
+.carousel-inner {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+.carousel-inner > .item > img,
+.carousel-inner > .item > a > img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+
+
+/**
+ *
+ * 控制按钮
+ *
+ */
+
+
+.carousel-control {
+  position: absolute;
+  top: 50%;
+  width: 48px;
+  height: 48px;
+  line-height: 48px;
+  margin-top: -24px;
+  color: #fff;
+  font-size: 18px;
+  text-align: center;
+  background-color: rgba(0,0,0,.2);
+}
+.carousel-control.prev {
+  left: 5px;
+}
+.carousel-control.next {
+  left: auto;
+  right: 5px;
+}
+.carousel-control:hover,
+.carousel-control:focus {
+  outline: 0;
+  text-decoration: none;
+  color: #fff;
+  background-color: rgba(0,0,0,.4);
+  cursor: pointer;
+}
+
+
+
+
+/**
+ *
+ * 导航
+ *
+ */
+
+
+.carousel-indicators {
+  position: absolute;
+  bottom: 10px;
+  z-index: 15;
+  width: 100%;
+  margin: 0 auto;
+  padding-left: 0;
+  list-style: none;
+  text-align: center;
+}
+.carousel-indicators li {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  text-indent: -999px;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #fff;
+}
+.carousel-indicators .active {
+  margin: 0;
+  width: 8px;
+  height: 8px;
+  background-color: rgba(0,0,0,.6);
+}
+
+
+
+/**
+ *
+ * 文字内容
+ *
+ */
+
+
+.carousel-caption {
+  position: absolute;
+  left: 15%;
+  right: 15%;
+  bottom: 30px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  text-align: center;
+  font-size: 30px;
+  font-weight: 900;
+  color: #fff;
+  z-index: 10;
+}
