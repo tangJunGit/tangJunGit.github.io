@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="renderer" content="webkit"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="#">
+    <title>弦图</title>
+    <style type="text/css">
+        svg.chord{
+            background: #eee; 
+        }
+    </style>
+</head>
+<body>
+
+<svg class="chord" width="400" height="400"></svg>
+
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+    // 获取画布信息
+    var svg = d3.select('svg.chord');
+    var width = svg.attr('width');
+    var height = svg.attr('height');
+
+    // 定义数据
+    var city_name = ["北京" , "上海" , "广州" , "深圳" , "香港"];
+        
+    // 数字表示城市人口的来源
+    // 如：北京市的人口有 1000 个人来自本地，有 3045 人是来自上海的移民....
+    var population = [                      
+          [1000, 3045, 4567, 1234, 3714],
+          [3214, 2000, 2060, 124 , 3234],
+          [8761, 6545, 3000, 8045, 647 ],
+          [3211, 1067, 3214, 4000, 1006],
+          [2146, 1034, 6745, 4764, 5000]
+        ];
+
+    // 布局
+    var chord_layout = d3.layout.chord()
+                                  .padding(0.03)                // 节点之间的间隔
+                                  .sortSubgroups(d3.descending) // 排序
+                                  .matrix(population);          // 输入矩阵
+
+    var groups = chord_layout.groups();             // 节点
+    var chords = chord_layout.chords();             // 连线，也就是弦
+
+    // console.log( groups );
+    // console.log( chords );
+
+    
+    // 创建弧生成器 
+    var innerRadius = width/2 * 0.8;
+    var outerRadius = innerRadius * 1.1;
+    var outer_arc = d3.svg.arc()
+                        .innerRadius(innerRadius)
+                        .outerRadius(outerRadius);
+
+    var inner_chord = d3.svg.chord()
+                            .radius(innerRadius);
+
+    // 绘制图形
+    var color20 = d3.scale.category20();
+
+    var svg_g = svg.append("g")
+                .attr("transform", "translate(" + width/2 + "," + height/2 + ")");
+
+    var g_outer = svg_g.append("g");                 
+
+    g_outer.selectAll("path")                   // 绘制节点
+            .data(groups)
+            .enter()
+            .append("path")
+            .style("fill", function(d) { return color20(d.index); })
+            .style("stroke", function(d) { return color20(d.index); })
+            .attr("d", outer_arc);
+
+    g_outer.selectAll("text")                   // 绘制描述文字
+            .data(groups)
+            .enter()
+            .append("text")
+            .each(function(d, i) { 
+               d.angle = (d.startAngle + d.endAngle) / 2; 
+               d.name = city_name[i];
+            })
+            .attr("dy", ".35em")
+            .attr("transform", function(d){             // 处理文字位置
+               return "rotate(" + ( d.angle * 180 / Math.PI ) + ")" +
+                       "translate(0,"+ -1.0*(outerRadius+10) +")" +
+                       ( ( d.angle > Math.PI*3/4 && d.angle < Math.PI*5/4 ) ? "rotate(180)" : "");
+             })
+            .text(function(d){
+               return d.name;
+            });
+
+    // 绘制连线（弦）
+    svg_g.append("g")
+        .attr("class", "chord")
+        .selectAll("path")
+        .data(chords)
+        .enter()
+        .append("path")
+        .attr("d", inner_chord)
+        .style("fill", function(d) { return color20(d.source.index); })
+        .style("opacity", 1)
+        .on("mouseover", function(d, i){
+            d3.select(this)
+              .style("fill", "yellow");
+        })
+        .on("mouseout", function(d, i) { 
+            d3.select(this)
+              .transition()
+              .duration(1000)
+              .style("fill", color20(d.source.index));
+        });
+
+</script>
+</body>
+</html>

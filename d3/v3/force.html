@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="renderer" content="webkit"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="#">
+    <title>力导向图</title>
+    <style type="text/css">
+        svg.force{
+            background: #eee; 
+        }
+        .force line.line{
+            stroke: #ccc;
+            stroke-width: 1;
+        }
+        .force text.text{
+            fill: black;
+        }
+    </style>
+</head>
+<body>
+
+<svg class="force" width="400" height="400"></svg>
+
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+    // 获取画布信息
+    var svg = d3.select('svg.force');
+    var width = svg.attr('width');
+    var height = svg.attr('height');
+
+    // 定义数据
+    // 节点（nodes）和连线（edges）的数组，
+    // 节点是一些城市名，连线的两端是节点的序号（序号从 0 开始）
+    var nodes = [{name: "桂林" }, {name: "广州" },                  // 节点数组
+                 {name: "厦门" }, {name: "杭州" },
+                 {name: "上海" }, {name: "青岛" },
+                 {name: "天津" }];
+    var edges = [{source: 0, target: 1}, {source: 0 ,target: 2},    // 连线数组
+                 {source: 0, target: 3}, {source: 1 ,target: 4},
+                 {source: 1, target: 5}, {source: 1 ,target: 6}];
+
+    //  布局
+    var force = d3.layout.force()
+                            .nodes(nodes)                 // 指定节点数组
+                            .links(edges)                 // 指定连线数组
+                            .size([width, height])        // 指定作用域范围
+                            .linkDistance(150)            // 指定连线长度
+                            .charge([-400])               // 相互之间的作用力
+                            .start();                     // 开始作用
+    // 此时，数组 nodes 和 edges 的数据都发生了变化
+
+    // console.log(nodes);
+    // console.log(edges);
+
+    // index：节点的索引号   px, py：节点上一个时刻的坐标
+    // x, y：节点的当前坐标   weight：节点的权重
+
+
+    // 绘制图形
+     var svg_edges = svg.selectAll("line.line")             // 添加连线 
+                        .data(edges)
+                        .enter()
+                        .append("line")
+                        .attr('class', 'line');
+     
+     var color = d3.scale.category20();
+     
+     var svg_nodes = svg.selectAll("circle.circle")         // 添加节点 
+                         .data(nodes)
+                         .enter()
+                         .append("circle")
+                         .attr('class', 'circle')
+                         .attr("r", 20)
+                         .style("fill", function(d,i){
+                             return color(i);
+                         })
+                         .call(force.drag);                 // 使得节点能够拖动
+
+     var svg_texts = svg.selectAll("text.text")             // 添加描述节点的文字
+                         .data(nodes)
+                         .enter()
+                         .append("text")
+                         .attr('class', 'text')
+                         .attr("dx", 20)
+                         .attr("dy", 8)
+                         .text(function(d){
+                            return d.name;
+                         });
+
+    // 监听事件
+    force.on("tick", function(){          
+        svg_edges.attr("x1", function(d){ return d.source.x; })          // 更新连线坐标
+                    .attr("y1", function(d){ return d.source.y; })
+                    .attr("x2", function(d){ return d.target.x; })
+                    .attr("y2", function(d){ return d.target.y; });
+             
+        svg_nodes.attr("cx", function(d){ return d.x; })         // 更新节点坐标
+                    .attr("cy",function(d){ return d.y; });
+        
+        svg_texts.attr("x", function(d){ return d.x; })         // 更新文字坐标
+                    .attr("y", function(d){ return d.y; });
+     });
+
+    // 布局事件
+    // force.on("start", function(){
+    //     console.log("开始");
+    // });
+    
+    // force.on("end", function(){
+    //     console.log("结束");
+    // });
+    
+    // force.on("tick", function(){
+    //     console.log("进行中");
+    // });
+
+
+    // 拖拽事件
+    // var drag = force.drag()
+    //                 .on("dragstart",function(d, i){
+    //                     console.log("拖拽状态：开始");
+    //                 })
+    //                 .on("dragend",function(d, i){
+    //                     console.log("拖拽状态：结束");
+    //                 })
+    //                 .on("drag",function(d, i){
+    //                     console.log("拖拽状态：进行中");
+    //                 });
+</script>
+</body>
+</html>

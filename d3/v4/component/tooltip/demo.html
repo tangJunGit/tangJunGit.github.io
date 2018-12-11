@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="renderer" content="webkit"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="#">
+    <title>提示框</title>
+    <style type="text/css">
+        .svg_tooltip{
+            background: #eee;
+        }
+        .svg_tooltip rect{
+            stroke:#ccc;
+            fill:steelblue;
+        }
+
+        .tooltip{
+            position: absolute;  
+            padding:4px;
+            border:1px solid grey;
+            border-radius:5px;         
+            text-align: center;
+            font-size:12px;
+            color:white;
+            background:rgba(0,0,0,0.9);
+            pointer-events: none; 
+            opacity:0;
+        }
+    </style>
+</head>
+<body>
+    <h3>提示框（tooltip）</h3>
+    <svg class="svg_tooltip" width="400" height="400"></svg>
+    <div id="tooltip" class="tooltip"></div>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="tooltip.js"></script>
+    <script>
+        var data = [{name: 'rect1'},{name: 'rect2'},{name: 'rect3'},{name: 'rect4'},{name: 'rect5'},{name: 'rect6'}];
+        var svg = d3.select('.svg_tooltip');
+        var rect = svg.selectAll('rect')
+                    .data(data)
+                    .enter()
+                    .append('rect')
+                    .attr('x', function(d, i){
+                        return i*50;
+                    })
+                    .attr('y', function(d, i){
+                        return i*50;
+                    })
+                    .attr('width', 30)
+                    .attr('height', 30);
+
+
+        // 实例化 Tooltip
+        new Tooltip(rect, {
+            tooltip: '#tooltip',
+            duration: 400,
+            html: function(d) {
+                return 'name：'+ d.name;         // tooltip 提示的文字
+            }
+        });
+
+    </script>
+</body>
+</html>

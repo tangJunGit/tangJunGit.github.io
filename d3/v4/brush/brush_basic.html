@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="renderer" content="webkit"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="#">
+    <title>刷子</title>
+    <style type="text/css">
+        .svg_brush{
+            background: #eee;
+        }
+    </style>
+</head>
+<body>
+    <h3>简单的刷子</h3>
+   <svg class="svg_brush" width="400" height="400"></svg>
+
+   <script src="https://d3js.org/d3.v4.min.js"></script>
+   <script>
+        // 获取svg信息
+        var svg = d3.select('.svg_brush')
+            width = svg.attr('width'),
+            height = svg.attr('height'),
+            padding = {left: 40, right: 40, top: 30, bottom: 30},
+            brush_w = width - padding.left - padding.right,
+            brush_h = height - padding.top - padding.bottom;
+
+        // 创建容器
+        var g = svg.append('g')
+                    .attr('transform', 'translate(' + padding.left + ',' + padding.top + ')');
+
+        // 创建0到10的50个随机数的点坐标
+        var data = d3.range(0,200).map(function(d){
+                        return {
+                            x:Math.random()*10,
+                            y:Math.random()*10
+                        }
+                    });
+        console.log(data);
+
+
+        // 定义线性比例尺
+        var xScale = d3.scaleLinear()
+                    .domain([0,10])
+                    .range([0,brush_w]);
+
+        var yScale = d3.scaleLinear()
+                    .domain([0,10])
+                    .range([brush_h,0]);
+
+
+        // 绘画坐标轴
+        var x_g = g.append('g');
+            x_g.append('g')
+                .call(d3.axisTop(xScale));
+
+            x_g.append('g')
+                .attr('transform','translate(0,'+brush_h+')')
+                .call(d3.axisBottom(xScale));
+
+        var y_g = g.append('g');
+            y_g.append('g')
+                .call(d3.axisLeft(yScale));
+
+            y_g.append('g')
+                .attr('transform','translate('+brush_w+',0)')
+                .call(d3.axisRight(yScale));
+        
+
+        // 绘画点
+        var circle_g = g.append('g');
+        var points = circle_g.selectAll('.points')
+                        .data(data)
+                        .enter()
+                        .append('circle')
+                        .attr('class','points')
+                        .attr('r', 2)
+                        .attr('cx',function(d){
+                            return xScale(d.x);
+                        })
+                        .attr('cy',function(d){
+                            return yScale(d.y);
+                        })
+                        .attr("fill","steelblue");
+
+        // 绘画刷子
+        var brush = d3.brush()
+                    .extent([[0,0],[brush_w, brush_h]])                 // 范围区间
+                    .on('brush',function(){                                                                     // 刷子事件
+                        points.attr('fill','steelblue')
+                            .filter((d)=>{                              // 过滤不在区间的点
+                                return  (xScale(d.x)>=d3.event.selection[0][0] && xScale(d.x)<=d3.event.selection[1][0]) &&
+                                        (yScale(d.y)>=d3.event.selection[0][1] && yScale(d.y)<=d3.event.selection[1][1])
+                            })
+                            .attr('fill','red');
+                    });
+
+        circle_g.append('g').call(brush);       // 初始化刷子
+
+   </script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="renderer" content="webkit"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="#">
+    <title>树状图</title>
+    <style type="text/css">
+        svg.tree{
+            background: #eee; 
+        }
+        .tree .node circle {
+          fill: #fff;
+          stroke: steelblue;
+          stroke-width: 1.5px;
+        }
+
+        .tree .node {
+          font: 12px sans-serif;
+        }
+
+        .tree .link {
+          fill: none;
+          stroke: #ccc;
+          stroke-width: 1.5px;
+        }
+
+    </style>
+</head>
+<body>
+
+<svg class="tree" width="400" height="400"></svg>
+
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+    // 获取画布信息
+    var svg = d3.select('svg.tree');
+    var width = svg.attr('width');
+    var height = svg.attr('height');
+
+
+    // 布局
+    // 与集群图只是布局不一样
+    var tree = d3.layout.tree()
+                        .size([width, height - 200])
+                        .separation(function(a, b) { return (a.parent == b.parent ? 1 : 2); });;
+
+
+    // 获取数据
+    d3.json("data/city.json", function(error, root) {       
+      var nodes = tree.nodes(root);
+      var links = tree.links(nodes);
+      
+      // console.log(nodes);
+      // console.log(links);
+      // nodes 中有各个节点的子节点（children）、深度（depth）、名称（name）、位置（x，y）信息
+      // 其中名称（name）是 json 文件中就有的属性
+
+
+      // 创建轴生成器
+      var diagonal = d3.svg.diagonal()          // 对角线生成器
+                            .projection(function(d) { return [d.y, d.x]; });    // 点变换器
+
+      // 绘制图形
+      var svg_g = svg.append('g')
+                      .attr("transform", "translate(40, 0)");
+
+      var link = svg_g.selectAll("path.link")       // 绘制连线    
+                      .data(links)
+                      .enter()
+                      .append("path")
+                      .attr("class", "link")
+                      .attr("d", diagonal);           // 使用对角线生成器
+
+      var node = svg_g.selectAll(".node")             // 创建节点
+                      .data(nodes)
+                      .enter()
+                      .append("g")
+                      .attr("class", "node")
+                      .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
+
+      node.append("circle")           // 绘制节点
+          .attr("r", 4.5);
+
+      node.append("text")             // 绘制描述文字
+          .attr("dx", function(d) { return d.children ? -8 : 8; })
+          .attr("dy", 3)
+          .style("text-anchor", function(d) { return d.children ? "end" : "start"; })
+          .text(function(d) { return d.name; });
+
+    });
+
+
+</script>
+</body>
+</html>

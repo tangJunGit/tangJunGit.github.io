@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="#"> 
+	<title>直方图</title>
+	<style type="text/css">
+		svg.histogram{
+			background: #eee; 
+		}
+
+	</style>
+</head>
+<body>
+
+<svg class="histogram" width="400" height="400"></svg>
+
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+	// 获取画布信息
+	var svg = d3.select('svg.histogram');
+	var width = svg.attr('width');
+	var height = svg.attr('height');
+
+	// 定义数据
+	var rand = d3.random.normal(0,25);
+	var dataset = [];
+	for(var i=0;i<100;i++){
+		dataset.push( rand() );
+	}
+
+	// 布局
+	var bin_num = 15;
+	var histogram = d3.layout.histogram()				// 直方图的布局
+								.range([-50,50])		// 区间的范围
+							    .bins(bin_num)			// 分隔数
+								.frequency(true);		// 若值为 true，则统计的是个数；若值为 false，则统计的是概率
+
+	var data = histogram(dataset);
+	// console.log(data);
+	// x： 区间的起始位置
+	// dx： 区间的宽度
+	// y： 落到此区间的数值的数量（如果 frequency 为 true）；落到此区间的概率（如果 frequency 为 false）
+
+	// 定义比例尺
+	var max_height = 300;
+	var heights = [];
+	for(var i=0;i<data.length;i++){
+		heights.push( data[i].y );
+	}
+	var yScale = d3.scale.linear()
+							.domain([d3.min(heights),d3.max(heights)])
+							.range([0,max_height]);
+	
+	// 绘制图形
+	var graphics = svg.append("g")
+						.attr("transform","translate(20,20)");
+	
+	//绘制矩形
+	var rect_step = 24;
+	graphics.selectAll("rect")
+			.data(data)
+			.enter()
+			.append("rect")
+			.attr("x",function(d,i){
+				return i * rect_step; 
+			})
+			.attr("y", function(d,i){
+				return max_height - yScale(d.y);
+			})
+			.attr("width", function(d,i){
+				return rect_step - 2; 
+			})
+			.attr("height", function(d){
+				return yScale(d.y);
+			})
+			.attr("fill","steelblue");
+	
+	//绘制坐标轴的直线
+	graphics.append("line")
+			.attr("stroke","black")
+			.attr("stroke-width","1px")
+			.attr("x1",0)
+			.attr("y1",max_height)
+			.attr("x2",data.length * rect_step)
+			.attr("y2",max_height);
+	
+	//绘制坐标轴的分隔符直线
+	graphics.selectAll(".linetick")
+			.data(data)
+			.enter()
+			.append("line")
+			.attr("stroke","black")
+			.attr("stroke-width","1px")
+			.attr("x1",function(d,i){
+				return i * rect_step + rect_step/2;
+			})
+			.attr("y1",max_height)
+			.attr("x2",function(d,i){
+				return i * rect_step + rect_step/2;
+			})
+			.attr("y2",max_height + 5);
+	
+	//绘制文字
+	graphics.selectAll("text")
+			.data(data)
+			.enter()
+			.append("text")
+			.attr("font-size","10px")
+			.attr("x",function(d,i){
+				return i * rect_step; 
+			})
+			.attr("y", function(d,i){
+				return max_height;
+			})
+			.attr("dx",rect_step/2 - 8)
+			.attr("dy","15px")
+			.text(function(d){
+				return Math.floor(d.x);
+			});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="renderer" content="webkit"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="#">
+    <title>缩放图</title>
+    <style type="text/css">
+        .svg_zoom{
+            background: #eee;
+        }
+
+        .svg_zoom .area {
+            fill: steelblue;
+            clip-path: url(#clip);
+        }
+
+        .svg_zoom .zoom {
+            cursor: move;
+            fill: none;
+            pointer-events: all;
+        }
+    </style>
+</head>
+<body>
+    <h3>关于定义域的缩放</h3>
+   <svg class="svg_zoom" width="800" height="400"></svg>
+
+   <script src="https://d3js.org/d3.v4.min.js"></script>
+   <script>
+        // 获取svg信息
+        var svg = d3.select('.svg_zoom')
+            width = svg.attr('width'),
+            height = svg.attr('height'),
+            padding = {top: 20, right: 30, bottom: 30, left: 60},
+            zoom_w = width - padding.left - padding.right,
+            zoom_h = height - padding.top - padding.bottom;
+
+        // 定义路径
+        svg.append("defs")
+            .append("clipPath")
+            .attr("id", "clip")
+            .append("rect")
+            .attr("width", zoom_w)
+            .attr("height", zoom_h);
+
+        // 创建容器
+        var g = svg.append('g')
+                    .attr('transform', 'translate(' + padding.left + ',' + padding.top + ')');
+
+        // 定义时间格式
+        var parseDate = d3.timeParse('%Y-%m');   // 时间格式与csv数据的date相对应, 如2009-01
+
+        // 定义比例尺
+        var x = d3.scaleTime().range([0, zoom_w]),           // 时间比例尺
+            y = d3.scaleLinear().range([zoom_h, 0]);
+
+
+        // 定义坐标轴
+        var xAxis = d3.axisBottom(x)
+                        .tickFormat(d3.timeFormat("%Y-%m")),
+            yAxis = d3.axisLeft(y);
+
+        // 定义缩放图
+        var zoom = d3.zoom()
+                    .scaleExtent([1, 32])                           // 缩放范围
+                    .translateExtent([[0, 0], [zoom_w, zoom_h]])    // 平移区间 以[[x0, y0], [x1, y1]]表示
+                    .extent([[0, 0], [zoom_w, zoom_h]])             // 视口的范围 以[[x0, y0], [x1, y1]]表示
+                    .on('zoom', zoomed);
+
+        function zoomed() {
+            var t = d3.event.transform, 
+                xt = t.rescaleX(x);             // 重新定义缩放比例尺
+
+            // 重绘面积与横坐标
+            g.select('.area').attr('d', area.x(function(d) { return xt(d.date); }));
+            g.select('.axis-x').call(xAxis.scale(xt));
+        }
+
+
+        // 定义area生成器
+        var area = d3.area()
+                    .curve(d3.curveMonotoneX)               // d3.curveMonotoneX 为线条的连接方式
+                    .x(function(d) { return x(d.date); })   // x0,x1都是时间轴
+                    .y0(zoom_h)                             // y0 为zoom_h ，在横坐标上
+                    .y1(function(d) { return y(d.price); });// y1 为price的高度
+
+
+        // 加载csv数据
+        d3.csv('dataset/price.csv', type, function(error, data) {
+            if (error) throw error;
+            // console.log(data);
+
+            // 添加比列尺的定义域
+            x.domain(d3.extent(data, function(d) { return d.date; }));
+            y.domain([0, d3.max(data, function(d) { return d.price; })]);
+
+            // 绘画图形
+            draw(data);
+
+        });
+
+        //在加载csv数据时，先处理数据 
+        function type(d) {
+            d.date = parseDate(d.date);    // 转化成定义域的时间格式
+            d.price = +d.price;
+            return d;
+        }
+
+        function draw(data){
+            // 绘画面积路径
+            g.append('path')
+              .datum(data)
+              .attr('class', 'area')
+              .attr('d', area);
+
+            // 绘画坐标轴
+            g.append('g')
+              .attr('class', 'axis axis-x')
+              .attr('transform', 'translate(0,' + zoom_h + ')')
+              .call(xAxis);
+
+            g.append('g')
+              .attr('class', 'axis axis-y')
+              .call(yAxis);
+
+
+            // zoom
+            var d0 = new Date(2003, 0, 1),      // 自定义的开始时间段
+                d1 = new Date(2004, 0, 1);
+
+            svg.append("rect")
+              .attr('class', 'zoom')
+              .attr("width", zoom_w)
+              .attr("height", zoom_h)
+              .attr("transform", "translate(" + padding.left + "," + padding.top + ")")
+              .call(zoom)
+              .transition()
+                .duration(1500)
+                .call(zoom.transform, 
+                        d3.zoomIdentity             // 自定义
+                            .scale(zoom_w / (x(d1) - x(d0)))
+                            .translate(-x(d0), 0));
+
+        }
+
+
+
+   </script>
+</body>
+</html>

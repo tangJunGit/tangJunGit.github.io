@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="renderer" content="webkit"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="#">
+    <title>饼状图</title>
+    <style type="text/css">
+        svg.pie{
+            background: #eee; 
+        }
+        .pie g.path text{
+            text-anchor: middle;
+            fill: white;
+            font-family: sans-serif;
+            font-size: 16px;
+        }
+        .tooltip{
+            position: absolute;
+            width: 120px;
+            height: auto;
+            padding: 5px;
+            font-family: 'simsun';
+            font-size: 14px;
+            text-align: center;
+            border-style: solid; 
+            border-width: 1px;
+            background-color: white;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    
+<svg class="pie" width="400" height="400"></svg>
+
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+    // 获取画布信息
+    var svg = d3.select('svg.pie');
+    var width = svg.attr('width');
+    var height = svg.attr('height');
+
+    // 添加提示框
+    var tooltip = d3.select("body")
+                    .append("div")
+                    .attr("class","tooltip");
+
+    // 定义数据
+    var dataset = [ 30 , 10 , 43 , 55 , 13 ];
+
+    // 布局
+    var pie = d3.layout.pie();              // 定义布局
+    var piedata = pie(dataset);             // 得到绘图所需的数据
+
+    // 创建弧生成器  
+    var outerRadius = 150;                  // 外半径
+    var innerRadius = 0;                    // 内半径，为0则中间没有空白
+
+    var arc = d3.svg.arc()                          // 弧生成器
+                .innerRadius(innerRadius)           // 设置内半径
+                .outerRadius(outerRadius);          // 设置外半径
+
+    // 绘制图形
+    var arcs = svg.selectAll("g.path")                   // 添加 <g>
+                    .data(piedata)
+                    .enter()
+                    .append("g")
+                    .attr('class', 'path')
+                    .attr("transform","translate("+ (width/2) +","+ (width/2) +")");
+
+    var color = d3.scale.category10();              // 有十种颜色的颜色比例尺
+
+    arcs.append("path")                             // 添加 <path>
+        .attr("fill", function(d, i){
+            return color(i);
+        })
+        .attr("d", function(d){
+            return arc(d);                          // 调用弧生成器，得到路径值
+        });
+
+    // 绘制文字
+    arcs.append("text")
+        .attr("transform", function(d){
+            return "translate(" + arc.centroid(d) + ")";
+        })
+        .text(function(d){
+            return d.data;
+        });
+
+
+
+    // 提示框的文字
+    arcs.on("mouseover",function(d){
+        tooltip.html('提示的数据'+d.data )
+                    .style("left", (d3.event.pageX) + "px")
+                    .style("top", (d3.event.pageY + 20) + "px")
+                    .style("display", 'block');
+    })
+    .on("mousemove",function(d){
+        tooltip.style("left", (d3.event.pageX) + "px")
+                .style("top", (d3.event.pageY + 20) + "px");
+    })
+    .on("mouseout",function(d){
+        tooltip.style("display", 'none');
+    })
+</script>
+</body>
+</html>

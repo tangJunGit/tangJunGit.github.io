@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="renderer" content="webkit"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="#">
+    <title>封装文本自动换行</title>
+      <style type="text/css">
+        svg.appendText{
+            background: #eee; 
+        }
+
+    </style>
+</head>
+<body>
+
+<svg class="appendText" width="400" height="400"></svg>
+
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="js/appendMultiText.js" charset="utf-8"></script>
+<script type="text/javascript">
+    // 获取画布信息
+    var svg = d3.select('svg.appendText');
+    var width = svg.attr('width');
+    var height = svg.attr('height');
+
+    var multext = new AppendMultiText(svg, {
+        str: '封装文本自动换行',
+        x: 20,
+        y: 20,
+        width: 32,
+        fontsize: 16
+    });
+
+    multext.attr("transform","rotate(-20)");
+</script>
+</body>
+</html>

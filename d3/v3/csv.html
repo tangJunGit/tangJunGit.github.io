@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="renderer" content="webkit"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="#">
+    <title>CSV</title>
+</head>
+<body>
+
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+    // 获取 excel 数据
+
+    // d3.csv = d3.dsv(",", "text/csv");
+    var csv = d3.dsv(",", "text/csv;charset=utf-8");           // 解决乱码
+
+    csv("data/table.csv", function(error, csvdata) {       
+      if (error) return console.error(error);
+
+      console.log(csvdata);
+
+      // 转化成字符串
+      var str = d3.csv.format( csvdata );  
+      console.log(str);     
+    });
+    </script>
+</body>
+</html>

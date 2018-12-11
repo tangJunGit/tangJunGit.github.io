@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="renderer" content="webkit"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="#">
+    <title>缩放</title>
+      <style type="text/css">
+        svg.zoom{
+            background: #eee; 
+        }
+
+    </style>
+</head>
+<body>
+
+<svg class="zoom" width="400" height="400"></svg>
+
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+    // 获取画布信息
+    var svg = d3.select('svg.zoom');
+    var width = svg.attr('width');
+    var height = svg.attr('height');
+
+    // 定义缩放行为
+    var zoom = d3.behavior.zoom()
+                            .scaleExtent([1, 10])           // 设置最小和最大的缩放比例
+                            .on("zoom", zoomed);
+
+    function zoomed() {
+        d3.select(this).attr("transform", 
+            "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+    }
+    
+    // 绘画圆
+    var circles = [ { cx: 150, cy:200, r:30 },
+                    { cx: 250, cy:200, r:30 },];
+                    
+    var circles_group = svg.append("g")
+                            .call(zoom);
+        
+    circles_group.selectAll("circle")
+                    .data(circles)
+                    .enter()
+                    .append("circle")
+                    .attr("cx",function(d){ return d.cx; })
+                    .attr("cy",function(d){ return d.cy; })
+                    .attr("r",function(d){ return d.r; })
+                    .attr("fill", "black");
+</script>
+</body>
+</html>

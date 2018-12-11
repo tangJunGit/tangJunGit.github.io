@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="renderer" content="webkit"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="#">
+    <title>打包图</title>
+    <style type="text/css">
+        .svg_contour{
+            background: #eee;
+        }
+        .svg_contour .contour{
+              fill: none;
+              stroke: #000;
+              stroke-width: 0.5;
+              stroke-linejoin: round;
+        }
+    </style>
+</head>
+<body>
+    <h3>简单的轮廓图</h3>
+    <svg class="svg_contour" width="800" height="600"></svg>
+
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/d3-contour.v1.min.js"></script>
+    <script>
+        // 获取svg信息
+        var svg = d3.select('.svg_contour')
+            width = svg.attr('width'),
+            height = svg.attr('height'),
+            padding = {top: 20, right: 20, bottom: 40, left: 40},
+            contour_w = width - padding.left - padding.right,
+            contour_h = height - padding.top - padding.bottom;
+
+        // 创建容器
+        var g = svg.append('g')
+                    .attr('transform', 'translate(' + padding.left + ',' + padding.top + ')');
+
+        // 定义比例尺
+        var x = d3.scaleLinear()
+                .rangeRound([0, contour_w]);
+
+        var y = d3.scaleLinear()
+                .rangeRound([contour_h, 0]);
+
+        // 加载tsv数据
+        d3.tsv('dataset/faithful.tsv', function(error, data) {
+             if (error) throw error;
+            // console.log(data);
+
+            // 定义比例尺的定义域
+            x.domain(d3.extent(data, function(d) { return d.waiting; })).nice();
+            y.domain(d3.extent(data, function(d) { return d.eruptions; })).nice();
+
+            // 数据转换
+            var contourData = d3.contourDensity()
+                                .x(function(d) { return x(d.waiting); })
+                                .y(function(d) { return y(d.eruptions); })
+                                .size([contour_w, contour_h])
+                                .bandwidth(30)(data);
+            console.log(contourData);
+
+            // 绘画图形
+            draw(contourData, data);
+
+        });
+
+        function draw(contourData, data){
+            // 绘画坐标轴
+            g.append('g')
+                .attr('transform', 'translate(0,'+ contour_h +')')
+                .call(d3.axisBottom(x).ticks(null, '.1f'));
+
+            g.append("g")
+                .call(d3.axisLeft(y).ticks(null, ".1s"));
+
+            // 绘画轮廓图
+            g.append("g")
+                .attr('class','contour')
+                .selectAll("path")
+                .data(contourData)
+                .enter()
+                .append("path")
+                .attr("d", d3.geoPath());           // 地理路径生成器
+
+            // 绘画点
+            g.append("g")
+                .selectAll("circle")
+                .data(data)
+                .enter()
+                .append("circle")
+                .attr("cx", function(d) { return x(d.waiting); })
+                .attr("cy", function(d) { return y(d.eruptions); })
+                .attr("r", 2);
+
+
+        }
+
+    </script>
+</body>
+</html>

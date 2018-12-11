@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="renderer" content="webkit"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="#">
+    <title>打包图</title>
+    <style type="text/css">
+        .svg_pack{
+            background: #eee;
+        }
+        .svg_pack .nodes text{
+            font-size: 10px;
+            fill: black;
+        }
+    </style>
+</head>
+<body>
+    <h3>简单的打包图</h3>
+   <svg class="svg_pack" width="400" height="400"></svg>
+
+   <script src="https://d3js.org/d3.v4.min.js"></script>
+   <script>
+        // 获取svg信息
+        var svg = d3.select('.svg_pack')
+            width = svg.attr('width'),
+            height = svg.attr('height'),
+            padding = {top: 20, right: 20, bottom: 20, left: 20},
+            pack_w = width - padding.left - padding.right,
+            pack_h = height - padding.top - padding.bottom;
+
+        // 创建容器
+        var g = svg.append('g')
+                    .attr('transform', 'translate(' + padding.left + ',' + padding.top + ')');
+
+        // 定义颜色
+        var color = d3.scaleSequential(d3.interpolatePlasma);
+
+        // 加载数据
+        d3.json('dataset/city.json', function(error, data) {
+            if (error) throw error;
+
+            // 数据转换
+            data = d3.hierarchy(data)
+                    .sum(function(d) {
+                        return d.value ? d.value : 1;
+                    });
+            // console.log(data);
+
+
+            // 定义颜色定义域
+            color.domain([-data.height, data.height]);
+
+            //绘画图形
+            draw(data);
+        });
+      
+        
+        function draw(data) {
+            // 定义pack生成器
+            var pack = d3.pack()
+                        .size([pack_w, pack_h])
+                        .padding(2);                // 间距
+
+            var packData = pack(data).descendants();         // 数据转换
+            console.log(packData);
+
+
+            // 创建每个包裹圆的g元素
+            var g_nodes = g.selectAll('g.nodes')
+                            .data(packData)
+                            .enter()
+                            .append('g')
+                            .attr('class','nodes')
+                            .attr('transform', function(d) {
+                                return 'translate(' + d.x + ',' + d.y + ')';
+                            });
+
+            // 绘画圆
+            g_nodes.append('circle')
+                    .attr('r', function(d,i) {
+                        return d.r;
+                    })
+                    .style('fill', function(d) {
+                        return color(d.depth);
+                    })
+                    .on('mouseover',function(){
+                        d3.select(this)
+                            .attr('stroke','black')
+                            .attr('stroke-width',1);
+                    })
+                    .on('mouseout',function(){
+                        d3.select(this)
+                            .attr('stroke','null');
+                    });
+
+            // 绘画文本
+            g_nodes.append('text')
+                    .attr("dx", -12)
+                    .attr("dy", 3)
+                    .text(function(d){
+                        return d.children ? '' : d.data.name;
+                    });
+
+            g_nodes.append('title')
+                    .text(function(d) { 
+                        return d.data.name;
+                    });
+        }
+
+   </script>
+</body>
+</html>

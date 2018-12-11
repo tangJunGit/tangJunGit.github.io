@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="renderer" content="webkit"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="#">
+    <title>地图</title>
+    <style type="text/css">
+        .svg_geo{
+            background: #eee;
+        }
+        .svg_geo path{
+            stroke: #000;
+            stroke-width: 1;
+        }
+        .svg_geo .province:hover{
+            fill: yellow;
+        }
+        .svg_geo .southsea {
+            stroke: black;
+            stroke-width: 1px;
+            fill: #ccc;
+        }
+        .svg_geo .point{
+            fill: black;
+        }
+
+        .svg_geo .text{
+            font-size: 12px;
+            fill: black;
+        }
+
+        .tooltip{
+            position: absolute;  
+            padding:4px;
+            border:1px solid grey;
+            border-radius:5px;         
+            text-align: center;
+            font-size:12px;
+            color:white;
+            background:rgba(0,0,0,0.9);
+            pointer-events: none; 
+            opacity:0;
+        }
+    </style>
+</head>
+<body>
+    <h3>中国地图</h3>
+    <svg class="svg_geo" width="800" height="600"></svg>
+    <div id="tooltip" class="tooltip"></div>
+
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="../component/tooltip/tooltip.js"></script>
+    <script>
+        // 获取svg信息
+        var svg = d3.select('.svg_geo')
+            width = svg.attr('width'),
+            height = svg.attr('height'),
+            padding = {top: 10, right: 10, bottom: 10, left: 10},
+            geo_w = width - padding.left - padding.right,
+            geo_h = height - padding.top - padding.bottom;
+
+        // 创建容器
+        var g = svg.append('g')
+                    .attr('transform', 'translate(' + padding.left + ',' + padding.top + ')');
+
+        // 定义颜色
+        var color = d3.scaleOrdinal(d3.schemeCategory20);
+
+        // 定义地图路径
+        var projection = d3.geoMercator()
+                            .center([115, 40])                      // 设定地图的中心位置
+                            .scale(600);                            // 设定放大的比例
+
+            path = d3.geoPath(projection);
+
+
+        // 加载tsv数据
+        d3.json('dataset/china.json', function(error, data) {
+            if(error) throw error;
+            console.log(data);
+
+            // 绘制图形
+            draw(data);
+
+        });
+
+        // 绘制海南群岛(右下角)
+        d3.xml('dataset/southchinasea.svg', function(error, xmlDocument) {
+            var g_southsea = g.append('g')
+                                .html(xmlDocument.getElementsByTagName('g')[0].outerHTML);
+            
+            var southseaBox = document.getElementById('southsea').getBBox();       // 获取xmlDocument的宽高
+            g_southsea.attr('class', 'southsea')
+                      .attr('transform', 'translate('+ (geo_w - southseaBox.width*0.8) +','
+                                                     + (geo_h - southseaBox.height*0.8) +') scale(0.4)');
+
+        });
+
+        function draw(data){
+            // 绘制地图
+            var map = g.append('g')
+                        .attr('class','map');
+
+            var province = map.selectAll('.province')
+                            .data( data.features )
+                            .enter()
+                            .append('path')
+                            .attr('class','province')
+                            .attr('fill', function(d, i){
+                                return color(i);
+                            })
+                            .attr('d', path );  
+
+
+            // 省份提示
+            new Tooltip(province, {
+                tooltip: '#tooltip',
+                duration: 400, 
+                html: function(d) {
+                    return d.properties.name;         
+                }
+            });
+
+            // 绘画点, 自定义的marker
+            var peking = [104.06, 30.67];
+            var proPeking = projection(peking);
+            var g_marker = g.append('g')
+                            .attr('class','marker');
+
+            g_marker.append("circle")
+                  .attr("class", "point")
+                  .attr("cx", proPeking[0])
+                  .attr("cy", proPeking[1])
+                  .attr("r", 4);
+
+            g_marker.append("text")
+                  .attr("class", "text")
+                  .attr("x", proPeking[0])
+                  .attr("y", proPeking[1])
+                  .attr("dx", 5)
+                  .attr("dy", 4)
+                  .text('成都');
+        }
+
+    </script>
+</body>
+</html>
