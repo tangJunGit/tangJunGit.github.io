@@ -1,0 +1,19 @@
+.error_404-wrap {
+  width: 100%;
+  height: 100%;
+}
+.error_404-wrap .error_404-section {
+  padding-top: 8%;
+}
+.error_404-wrap .error_404-section img {
+  display: block;
+  margin: 0 auto 20px;
+}
+.error_404-wrap .error_404-section .reminder {
+  width: 500px;
+  margin: 0 auto;
+}
+.error_404-wrap .error_404-section .reminder .text {
+  color: #6bbaa3;
+  font-size: 20px;
+}

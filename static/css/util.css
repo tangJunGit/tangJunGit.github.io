@@ -1,0 +1,264 @@
+/* display */
+.db{display:block;}
+.dn{display:none;}
+.di{display:inline;}
+.dib{display:inline-block;}
+
+/* height */
+.h14{height:14px;}
+.h16{height:16px;}
+.h18{height:18px;}
+.h20{height:20px;}
+.h22{height:22px;}
+.h24{height:24px;}
+.h26{height:26px;}
+.h28{height:28px;}
+.h30{height:30px;}
+.h32{height:32px;}
+.h34{height:34px;}
+.h36{height:36px;}
+
+/* line-height */
+.lh14{line-height:14px;}
+.lh16{line-height:16px;}
+.lh18{line-height:18px;}
+.lh20{line-height:20px;}
+.lh22{line-height:22px;}
+.lh24{line-height:24px;}
+.lh24{line-height:26px;}
+.lh28{line-height:28px;}
+.lh30{line-height:30px;}
+.lh32{line-height:32px;}
+.lh34{line-height:34px;}
+.lh36{line-height:36px;}
+
+/* font-size */
+.fs0{font-size:0;}
+.fs10{font-size:10px;}
+.fs12{font-size:12px;}
+.fs13{font-size:13px;}
+.fs14{font-size:14px;}
+.fs16{font-size:16px;}
+.fs18{font-size:18px;}
+.fs20{font-size:20px;}
+.fs22{font-size:22px;}
+.fs24{font-size:24px;}
+.fs26{font-size:26px;}
+.fs28{font-size:28px;}
+.fs30{font-size:30px;}
+.fs32{font-size:32px;}
+.fs34{font-size:34px;}
+.fs36{font-size:36px;}
+
+/* font-color */
+.cw{color:white;}
+.cb{color:black;}
+.cr{color:red;}
+
+/* font-style */
+.fwn{font-weight:normal; font-style:normal;}
+.fwb{font-weight:bold;}
+.fsi{font-style:italic;}
+
+/* text-align */
+.tac{text-align:center;}
+.tar{text-align:right;}
+.tal{text-align:left;}
+
+/* text-decoration */
+.tdu{text-decoration:underline;}
+
+/* css3过渡动画效果 */
+.trans3{-webkit-transition:all 0.3s;transition:all 0.3s;}
+.trans5{-webkit-transition:all 0.5s;transition:all 0.5s;}
+.trans8{-webkit-transition:all 0.8s;transition:all 0.8s;}
+.trans10{-webkit-transition:all 1s;transition:all 1s;}
+
+/* 单行文字溢出虚点显 示*/
+.ell{text-overflow:ellipsis;white-space:nowrap;overflow:hidden;}
+
+/* 浮动 */
+.fl{float:left}
+.fr{float:right}
+
+/* 鼠标手势 */
+.cp{cursor:pointer;}
+.cd{cursor:default;}
+.cna{cursor:not-allowed;}
+
+/* position */
+.pr{position:relative}
+.pa{position:absolute}
+.pf{position:fixed;}
+
+/*用于absolute或者fixed定位或者浮动,任意类型元素的水平居中(要求：1.宽度必须要有)*/
+.pauto{left:0;right:0;margin-left:auto;margin-right:auto;position:absolute;/*父元素需要相对定位*/}
+
+/*任意类型元素的水平垂直居中(要求：1.宽度必须要有)*/
+.pautoall{left:0;right:0;top:0;bottom:0;margin:auto;position:absolute;/*父元素需要相对定位*/}
+
+/* 块元素水平居中(要求 1.无定位 2.设定宽度 3.必须是display:block) */
+.auto{margin-left:auto;margin-right:auto;display:block;}
+
+/* 容器内部子元素水平垂直居中 */
+/*存放<img>的容器设置如下*/
+.autocont{ 
+  /*将内部元素按照单元格显示，因此可以垂直居中*/
+  /*需要与vertical配合*/
+    display:table-cell; 
+    text-align:center;
+    vertical-align:middle;
+}
+
+/*清除浮动*/
+.clear:after{content:"";display:block;height:0;clear:both;visibility:hidden;}
+
+/*在IE6/7中通过zoom:1可以触发hasLayout。*/
+.clear{zoom:1;}
+
+/* vertical-align */
+.vam{vertical-align:middle;}
+.vab{vertical-align:bottom;}
+.vat{vertical-align:top;}
+.vatb{vertical-align:text-bottom;}
+
+/* visibility */
+.vh{visibility:hidden;}
+.vv{visibility:visible;}
+
+/* zoom */
+.z{*zoom:1;}
+
+/* 按钮禁用，如果有disabled则return */
+.disabled{color:#acacac;border-color:#acacac;text-shadow:1px 1px #fff;outline:0;cursor:default;pointer-events:none;}
+.disabled:hover{text-decoration:none;}
+
+/*增加了margin*/
+.m1{margin:1px;}
+.ml1{margin-left:1px;}
+.mr1{margin-right:1px;}
+.mt1{margin-top:1px;}
+.mb1{margin-top:1px;}
+
+.m2{margin:2px;}
+.ml2{margin-left:2px;}
+.mr2{margin-right:2px;}
+.mt2{margin-top:2px;}
+.mb2{margin-top:2px;}
+
+.m3{margin:3px;}
+.ml3{margin-left:3px;}
+.mr3{margin-right:3px;}
+.mt3{margin-top:3px;}
+.mb3{margin-top:3px;}
+
+.m5{margin:5px;}
+.ml5{margin-left:5px;}
+.mr5{margin-right:5px;}
+.mt5{margin-top:5px;}
+.mb5{margin-top:5px;}
+
+.m7{margin:7px;}
+.ml7{margin-left:7px;}
+.mr7{margin-right:7px;}
+.mt7{margin-top:7px;}
+.mb7{margin-top:7px;}
+
+.m10{margin:10px;}
+.ml10{margin-left:10px;}
+.mr10{margin-right:10px;}
+.mt10{margin-top:10px;}
+.mb10{margin-top:10px;}
+
+.m15{margin:15px;}
+.ml15{margin-left:15px;}
+.mr15{margin-right:15px;}
+.mt15{margin-top:15px;}
+.mb15{margin-top:15px;}
+
+.m20{margin:20px;}
+.ml20{margin-left:20px;}
+.mr20{margin-right:20px;}
+.mt20{margin-top:20px;}
+.mb20{margin-top:20px;}
+
+/*增加了padding*/
+.p1{padding:1px;}
+.pl1{padding-left:1px;}
+.pr1{padding-right:1px;}
+.pt1{padding-top:1px;}
+.pb1{padding-top:1px;}
+
+.p2{padding:2px;}
+.pl2{padding-left:2px;}
+.pr2{padding-right:2px;}
+.pt2{padding-top:2px;}
+.pb2{padding-top:2px;}
+
+.p3{padding:3px;}
+.pl3{padding-left:3px;}
+.pr3{padding-right:3px;}
+.pt3{padding-top:3px;}
+.pb3{padding-top:3px;}
+
+.p5{padding:5px;}
+.pl5{padding-left:5px;}
+.pr5{padding-right:5px;}
+.pt5{padding-top:5px;}
+.pb5{padding-top:5px;}
+
+.p7{padding:7px;}
+.pl7{padding-left:7px;}
+.pr7{padding-right:7px;}
+.pt7{padding-top:7px;}
+.pb7{padding-top:7px;}
+
+.p10{padding:10px;}
+.pl10{padding-left:10px;}
+.pr10{padding-right:10px;}
+.pt10{padding-top:10px;}
+.pb10{padding-top:10px;}
+
+.p15{padding:15px;}
+.pl15{padding-left:15px;}
+.pr15{padding-right:15px;}
+.pt15{padding-top:15px;}
+.pb15{padding-top:15px;}
+
+.p20{padding:20px;}
+.pl20{padding-left:20px;}
+.pr20{padding-right:20px;}
+.pt20{padding-top:20px;}
+.pb20{padding-top:20px;}
+
+/*增加了overflow*/
+.oh{overflow: hidden;}
+.oa{overflow: auto;}
+.ov{overflow: visible;}
+.oxh{overflow-x: hidden;}
+.oxa{overflow-x: auto;}
+.oxv{overflow-x: visible;}
+.oyh{overflow-y: hidden;}
+.oya{overflow-y: auto;}
+.oyv{overflow-y: visible;}
+
+/*增加了border*/
+.b1 {border:1px solid #ccc;}
+.bt1 {border-top:1px solid #ccc;}
+.bb1 {border-bottom:1px solid #ccc;}
+.bl1 {border-left:1px solid #ccc;}
+.br1 {border-right:1px solid #ccc;}
+
+.b2 {border:2px solid #ccc;}
+.bt2 {border-top:2px solid #ccc;}
+.bb2 {border-bottom:2px solid #ccc;}
+.bl2 {border-left:2px solid #ccc;}
+.br2 {border-right:2px solid #ccc;}
+
+.b3 {border:3px solid #ccc;}
+.bt3 {border-top:3px solid #ccc;}
+.bb3 {border-bottom:3px solid #ccc;}
+.bl3 {border-left:3px solid #ccc;}
+.br3 {border-right:3px solid #ccc;}
+/* ------------------- single CSS end------------------ */
+

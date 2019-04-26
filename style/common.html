@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>组件样式</title>
+	<link rel="stylesheet" href="../static/css/normalize.css">
+	<link rel="stylesheet" href="common.css">
+</head>
+<body>
+	<div class="container-fluid">
+		<!-- ==========================      文本       ============================== -->
+		<h1>文本 <small>样式</small></h1><hr>
+		<p>
+			这是一段<mark>高亮</mark>文字。
+			<del>被删除的文本。</del>
+			<ins>额外插入的文本。</ins>
+			<small>小号文本。</small>
+			<strong>强调一段文本。</strong>
+			<em>用斜体强调一段文本。</em>
+			<abbr title="这是缩略语提示。">缩略语</abbr>
+		</p>
+		<p>
+			内联代码：<code>&lt;section&gt;</code>
+			键盘输入：<kbd><kbd>ctrl</kbd> + <kbd>,</kbd></kbd>
+			<pre>&lt;p&gt;这是一段代码块。&lt;/p&gt;</pre>
+		</p>
+		<p class="text-left">文本居左</p>
+		<p class="text-center">文本居中</p>
+		<p class="text-right">文本居右</p>
+		<p class="text-nowrap" style="width:500px;">文本溢出处理，文本溢出处理，文本溢出处理，文本溢出处理，文本溢出处理，文本溢出处理。</p>
+		<p class="text-lowercase">Lowercased text.（小写）</p>
+		<p class="text-uppercase">Uppercased text.（大写）</p>
+		<p class="text-capitalize">Capitalized text.（单词大写开头）</p>
+		<blockquote>
+		  <p>这是一段引用的文本。</p>
+		</blockquote>
+
+		<!-- ==========================      列表       ============================== -->
+		<h1>列表 <small>样式</small></h1><hr>
+		<ul>
+			<li>音乐</li>
+			<li>书籍
+				<ul>
+					<li>编写高质量代码--Web前端开发修炼之道</li>
+					<li>JavaScript语言精粹</li>
+					<li>JavaScript设计模式</li>
+				</ul>
+			</li>
+	    </ul>
+	    <ol>
+			<li>编写高质量代码--Web前端开发修炼之道</li>
+			<li>JavaScript语言精粹</li>
+			<li>JavaScript设计模式</li>
+	    </ol>
+	    <ul class="list-unstyled">
+			<li>无样式列表一</li>
+			<li>无样式列表二</li>
+			<li>无样式列表三</li>
+	    </ul>
+	    <ul class="list-inline">
+			<li>内联列表一</li>
+			<li>内联列表二</li>
+			<li>内联列表三</li>
+		</ul>
+		<dl>
+			<dt>描述的短语列表</dt>
+			<dd>描述一</dd>
+			<dd>描述二</dd>
+		</dl>
+
+		
+		<!-- ==========================      表格       ============================== -->
+		<h1>表格 <small>样式</small></h1><hr>
+		<table class="table">
+	      <caption>表格</caption>
+	      <thead>
+	        <tr>
+	          <th>序号</th>
+	          <th>用户名</th>
+	          <th>密码</th>
+	          <th>描述</th>
+	        </tr>
+	      </thead>
+	      <tbody>
+	        <tr class="bg-primary">
+	          <th>1</th>
+	          <td>张三</td>
+	          <td>123456</td>
+	          <td>描述张三的文字</td>
+	        </tr>
+	        <tr>
+	          <th>2</th>
+	          <td>李四</td>
+	          <td>lisi</td>
+	          <td>描述李四的文字</td>
+	        </tr>
+	      </tbody>
+	    </table>
+
+	    <table class="table table-bordered table-hover">
+	      <caption>带边框,鼠标悬停的表格</caption>
+	      <thead>
+	        <tr>
+	          <th>序号</th>
+	          <th>用户名</th>
+	          <th>密码</th>
+	          <th>描述</th>
+	        </tr>
+	      </thead>
+	      <tbody>
+	        <tr>
+	          <th>1</th>
+	          <td>张三</td>
+	          <td>123456</td>
+	          <td>描述张三的文字</td>
+	        </tr>
+	        <tr>
+	          <th>2</th>
+	          <td>李四</td>
+	          <td>lisi</td>
+	          <td>描述李四的文字</td>
+	        </tr>
+	      </tbody>
+	    </table>
+
+
+		<!-- ==========================      表单       ============================== -->
+		<h1>表单 <small>样式</small></h1><hr>
+		<form>
+			<div class="form-group">
+				<label for="username">用户名</label>
+				<input type="text" class="form-control" id="username" placeholder="请输入用户名">
+			</div>
+			<div class="form-group">
+				<label for="password">密码</label>
+				<input type="password" class="form-control" id="password" placeholder="请输入密码">
+				<span class="text-danger">密码错误提示</span>
+			</div>
+			<div class="form-group has-feedback">
+				<input type="text" class="form-control" id="feedback" placeholder="小图标">
+				<button type="button" class="close form-control-feedback"><span>&times;</span></button>
+			</div>
+		</form>
+		<form class="form-horizontal">
+			<div class="form-group has-feedback">
+				<label for="username2" class="col-sm-2 control-label">用户名</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" id="username2" placeholder="请输入用户名">
+					<span class="text-danger">用户名错误提示</span>
+					<button type="button" class="close form-control-feedback"><span>&times;</span></button>
+				</div>
+			</div>
+		</form>
+		<form class="form-inline">
+			<div class="form-group">
+				<label for="username3">用户名</label>
+				<input type="text" class="form-control" id="username3" placeholder="请输入用户名">
+			</div>
+			<div class="form-group">
+				<label for="password">密码</label>
+				<input type="password" class="form-control" id="password" placeholder="请输入密码">
+			</div>
+			<div class="form-group">
+				<label for="">禁止</label>
+				<input type="text" class="form-control" placeholder="disable" disabled>
+			</div>
+		</form>
+		<form>
+			<div class="form-group">
+				<div class="input-group">
+					<div class="input-group-addon">$</div>
+					<input type="text" class="form-control" placeholder="文本">
+				</div>
+			</div>
+		</form>
+
+		<form>
+			<div class="checkbox">
+				<label>
+					<input type="checkbox" name="sex" value="">男
+				</label>
+			</div>
+			<div class="checkbox">
+				<label>
+					<input type="checkbox" name="sex" value="" disabled>女
+				</label>
+			</div>
+			
+			<div class="radio">
+				<label>
+					<input type="radio" name="hobby" value="" checked>足球
+				</label>
+			</div>
+			<div class="radio">
+				<label>
+					<input type="radio" name="hobby" value="">篮球
+				</label>
+			</div>
+			<div class="radio">
+				<label>
+					<input type="radio" name="hobby" disabled>羽毛球
+				</label>
+			</div>
+		</form>
+		<form>
+			<label class="checkbox-inline">
+				<input type="checkbox" value=""> 1
+			</label>
+			<label class="checkbox-inline">
+				<input type="checkbox" value=""> 2
+			</label>
+			<label class="checkbox-inline disabled">
+				<input type="checkbox" value=""> 3
+			</label>
+
+			<label class="radio-inline">
+				<input type="radio" name="option" value=""> 1
+			</label>
+			<label class="radio-inline">
+				<input type="radio" name="option" value=""> 2
+			</label>
+			<label class="radio-inline">
+				<input type="radio" name="option" value=""> 3
+			</label>
+		</form>
+		<form>
+			<select class="form-control">
+				<option>1</option>
+				<option>2</option>
+				<option>3</option>
+				<option>4</option>
+				<option>5</option>
+			</select>
+		</form>
+		<form>
+			<textarea class="form-control" rows="3" placeholder="Textarea"></textarea>
+		</form>
+
+		<!-- ==========================      按钮       ============================== -->
+		<h1>按钮 <small>样式</small></h1><hr>
+		<a class="btn btn-default" href="#" role="button">Link</a>
+		<button class="btn" type="submit">Button</button>
+		<button class="btn btn-default" type="submit">Button</button>
+		<input class="btn btn-default" type="button" value="Input">
+		<input class="btn btn-default" type="submit" value="Submit">
+		<button type="button" class="btn btn-default active">Button</button>
+		<button type="button" class="btn btn-default" disabled>Button</button>
+		<button type="button" class="btn btn-primary">Button</button>
+		<button type="button" class="btn btn-primary active">Button</button>
+		<button type="button" class="btn btn-primary" disabled>Button</button>
+
+		<!-- ==========================      辅助类       ============================== -->
+		<h1>辅助类 <small>样式</small></h1><hr>
+		<p class="text-danger">错误文本</p>
+		<p class="bg-success">成功提示文本信息。</p>
+		<p class="bg-danger">失败提示文本信息。</p>
+		关闭按钮：<button type="button" class="close"><span>&times;</span></button>
+		三角符号：<span class="caret"></span>
+	</div>
+	
+</body>
+</html>

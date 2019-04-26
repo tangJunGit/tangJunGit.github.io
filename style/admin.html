@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>后台管理系统</title>
+	<link rel="stylesheet" href="../static/css/normalize.css">
+	<link rel="stylesheet" href="common.css">
+	<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+	<!-- 头部 -->
+	<div class="app-header">
+		<a class="navbar-brand" href="#">后台管理系统</a>
+		<a href="#" class="navbar-collapse"><img src="images/navbar-zoom.png" alt=""></a>
+		<ul class="list-inline navbar-nav">
+			<li class="nav-item"><a href="#"><img src="images/user.jpg" alt=""><span>退出系统</span></a></li>
+		</ul>  
+	</div>
+
+	<!-- 主体 -->
+	<div class="app-body">
+		<!-- 菜单 -->
+		<div class="sidebar">
+			<div class="sidebar-nav">
+				<ul class="list-unstyled nav">
+					<!-- 列表头 -->
+					<li class="nav-title">列表头</li>
+					<!-- 列表打开以及选中状态 -->
+					<li class="nav-item treeview active open">
+						<a href="#" class="nav-link">
+							<img class="link-photo" src="images/navbar-zoom.png" alt="">
+							<span class="title">列表有子菜单</span>
+							<span class="caret"></span>
+						</a>
+						<ul class="list-unstyled">
+							<li class="nav-item active"><a href="#" class="nav-link">子菜单</a></li>
+							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
+							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
+							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
+							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
+							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
+							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
+							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
+							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
+							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
+						</ul>
+					</li>
+					<!-- 列表有子菜单状态 -->
+					 <li class="nav-item treeview">
+						<a href="#" class="nav-link">
+							<img class="link-photo" src="images/navbar-zoom.png" alt="">
+							<span class="title">列表有子菜单</span>
+							<span class="caret"></span>
+						</a>
+						<ul class="list-unstyled">
+							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
+							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
+							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
+						</ul>
+					</li>
+					<li class="nav-item treeview">
+						<a href="#" class="nav-link">
+							<img class="link-photo" src="images/navbar-zoom.png" alt="">
+							<span class="title">列表有子菜单</span>
+							<span class="caret"></span>
+						</a>
+						<ul class="list-unstyled">
+							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
+							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
+							<li class="nav-item"><a href="#" class="nav-link">子菜单</a></li>
+						</ul>
+					</li> 
+					<!-- 列表无子菜单 -->
+					 <li class="nav-item">
+						<a href="#" class="nav-link">
+							<img class="link-photo" src="images/navbar-zoom.png" alt="">
+							<span class="title">列表无子菜单</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="#" class="nav-link">
+							<img class="link-photo" src="images/navbar-zoom.png" alt="">
+							<span class="title">列表无子菜单</span>
+						</a>
+					</li>
+				</ul>
+			</div> 
+		</div>  
+		<!-- 内容 -->
+		<div class="container-fluid main">
+			<ul class="list-inline breadcrumb">
+				<li class="breadcrumb-item"><a href="#">首页</a></li>
+				<li class="breadcrumb-item active">表格</li>
+			</ul>
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>序号</th>
+						<th>用户名</th>
+						<th>密码</th>
+						<th>描述</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th>1</th>
+						<td>张三</td>						
+						<td>123456</td>
+						<td>描述张三的文字</td>
+					</tr>
+					<tr>
+						<th>2</th>
+						<td>李四</td>
+						<td>456789</td>
+						<td>描述李四的文字</td>
+					</tr>
+				</tbody>
+			</table>
+			<hr>
+			<form class="row">
+				<div class="col-sm-6 form-group">
+					<label for="username">用户名</label>
+					<input type="text" class="form-control" id="username" placeholder="请输入用户名">
+				</div>
+				<div class="col-sm-6 form-group">
+					<label for="password">密码</label>
+					<input type="password" class="form-control" id="password" placeholder="请输入密码">
+				</div>
+			</form>
+		</div>  
+	</div>
+
+	<script src="../jq/jq.custom.js"></script>
+	<script>
+		$(function(){
+			// 在 li.nav-item 上添加 class="open" 展开子菜单
+			var open = 'open';
+			$('.nav>.nav-item>.nav-link').on('click', function(event){
+				var parent = $(this).parent();
+				var isOpen = parent.hasClass(open);
+				$('.nav>.nav-item').removeClass(open);
+				if(!isOpen) parent.addClass(open);
+			});
+
+			// 在 body 上添加 class="sidebar-collapse" 收缩菜单
+			var $body = $('body');
+			var collapse = 'sidebar-collapse';
+			$('.navbar-collapse').on('click', function(){
+				var isCollapse = $body.hasClass(collapse);
+				if(isCollapse){
+					$body.removeClass(collapse);
+				}else{
+					$body.addClass(collapse);
+				}
+			});
+		});
+	</script>
+</body>
+</html>
